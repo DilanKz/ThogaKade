@@ -6,6 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.entity.Customer;
+import lk.ijse.thogakade.util.SessionFactoryConfiguration;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.net.URL;
 
@@ -24,5 +28,12 @@ public class AppInitializer extends Application {
         primaryStage.centerOnScreen();
 
         primaryStage.show();
+
+
+        Session session = SessionFactoryConfiguration.getInstance().getSession();
+        session.save(new Customer("C001","Dilan","Galle",20000));
+        System.out.println(session.get(Customer.class,"C001"));
+        Transaction transaction = session.beginTransaction();
+        transaction.commit();
     }
 }
