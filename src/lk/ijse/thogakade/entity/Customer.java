@@ -1,5 +1,6 @@
 package lk.ijse.thogakade.entity;
 
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -10,15 +11,15 @@ import javax.persistence.Id;
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "customerID",length = 55)
+    @GenericGenerator(name = "customerID", strategy = "lk.ijse.thogakade.ids.CustomerIDGenerator")
+    @GeneratedValue(generator = "customerID")
+    @Column(name = "customerID",length = 50)
     private String id;
 
-    @Column(name = "cutomerName")
+    @Column(name = "customerName")
     private String name;
 
-    @Column(name = "cutomerAddress")
+    @Column(name = "customerAddress")
     private String address;
 
     @Column(name = "customerSalary")

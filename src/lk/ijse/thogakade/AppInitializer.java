@@ -30,10 +30,10 @@ public class AppInitializer extends Application {
         primaryStage.show();
 
 
-        Session session = SessionFactoryConfiguration.getInstance().getSession();
-        session.save(new Customer("C001","Dilan","Galle",20000));
+        /*Session session = SessionFactoryConfiguration.getInstance().getSession();
+        session.save(new Customer("C003","DilanMal","Galle",20000));
         System.out.println(session.get(Customer.class,"C001"));
         Transaction transaction = session.beginTransaction();
-        transaction.commit();
+        transaction.commit();*/
     }
 }

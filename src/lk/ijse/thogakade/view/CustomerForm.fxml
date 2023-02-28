@@ -39,11 +39,10 @@
         <JFXTabPane layoutX="160.0" layoutY="367.0" />
         <TableView fx:id="tblCustomer" layoutX="38.0" layoutY="355.0" prefHeight="163.0" prefWidth="712.0">
             <columns>
-                <TableColumn fx:id="colID" prefWidth="60.0" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="165.0" text="Name" />
-                <TableColumn fx:id="colAddress" minWidth="0.0" prefWidth="125.0" text="Address" />
-                <TableColumn fx:id="colSalary" prefWidth="104.0" text="Salary" />
-                <TableColumn fx:id="colAction" prefWidth="60.0" text="Action" />
+                <TableColumn fx:id="colID" prefWidth="131.0" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="193.0" text="Name" />
+                <TableColumn fx:id="colAddress" minWidth="0.0" prefWidth="201.0" text="Address" />
+                <TableColumn fx:id="colSalary" prefWidth="186.0" text="Salary" />
             </columns>
         </TableView>
         <JFXTextField labelFloat="true" layoutX="595.0" layoutY="322.0" promptText="Search" />

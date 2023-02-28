@@ -1,7 +1,6 @@
 package lk.ijse.thogakade.util;
 
 import lk.ijse.thogakade.entity.Customer;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -33,7 +32,6 @@ public class SessionFactoryConfiguration {
         return factoryConfiguration;
     }
     public Session getSession(){
-
         return sessionFactory.openSession();
     }
 }
