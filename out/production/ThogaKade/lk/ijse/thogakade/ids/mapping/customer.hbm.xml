@@ -8,7 +8,7 @@
         <id name="id" column="customerId">
             <generator class="lk.ijse.thogakade.ids.CustomerIDGenerator"/>
         </id>
-        <property name="name" column="customerName"></property>
+        <property name="name" column="customerName"/>
         <property name="address" column="customerAddress"/>
         <property name="salary" column="customerSalary"/>
     </class>

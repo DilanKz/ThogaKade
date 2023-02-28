@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="lk.ijse.thogakade.entity.Items" table="customer-customID">
+        <id name="id" column="item_id">
+            <generator class="lk.ijse.thogakade.ids.ItemIDGenerator"/>
+        </id>
+        <property name="name" column="item_name"/>
+        <property name="price" column="item_price"/>
+        <property name="qty" column="item_qty"/>
+    </class>
+</hibernate-mapping>

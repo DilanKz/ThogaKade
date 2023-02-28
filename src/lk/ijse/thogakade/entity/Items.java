@@ -11,8 +11,8 @@ import javax.persistence.Id;
 @Entity
 public class Items {
     @Id
-    /*@GenericGenerator(name = "customerID", strategy = "lk.ijse.thogakade.ids.CustomerIDGenerator")
-    @GeneratedValue(generator = "customerID")*/
+    @GenericGenerator(name = "ItemID", strategy = "lk.ijse.thogakade.ids.ItemIDGenerator")
+    @GeneratedValue(generator = "ItemID")
     @Column(name = "item_id",length = 50)
     private String id;
 

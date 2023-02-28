@@ -1,11 +1,12 @@
 package lk.ijse.thogakade.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Entity
 public class OrderDetails {
 
-    @Id
     @Column(name = "orderID")
     private String oId;
 

@@ -1,12 +1,19 @@
 package lk.ijse.thogakade.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Date;
 
+@Entity
 public class Orders {
 
     @Id
+    @GenericGenerator(name = "orderID", strategy = "lk.ijse.thogakade.ids.OrdersIDGenerator")
+    @GeneratedValue(generator = "orderID")
     @Column(name = "orderID",length = 50)
     private String id;
 
