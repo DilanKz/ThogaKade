@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.thogakade.model.CustomerModel;
+import lk.ijse.thogakade.repository.ItemRepository;
 import lk.ijse.thogakade.to.Customer;
 import lk.ijse.thogakade.util.Navigation;
 import lk.ijse.thogakade.util.Routes;
@@ -50,6 +51,8 @@ public class ItemFormController {
 
     @FXML
     private TableColumn<?, ?> colAction;
+
+    private ItemRepository itemRepository=new ItemRepository();
 
     @FXML
     void btnAddOnAction(ActionEvent event) {

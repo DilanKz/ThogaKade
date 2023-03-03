@@ -9,8 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.thogakade.model.CustomerModel;
-import lk.ijse.thogakade.to.Customer;
+import lk.ijse.thogakade.repository.CustomerRepository;
+import lk.ijse.thogakade.entity.Customer;
 import lk.ijse.thogakade.util.Navigation;
 import lk.ijse.thogakade.util.Routes;
 
@@ -51,6 +51,8 @@ public class CustomerFormController {
     @FXML
     private TableColumn<?, ?> colAction;
 
+    private CustomerRepository customerRepository=new CustomerRepository();
+
     @FXML
     void btnAddOnAction(ActionEvent event) {
         String id = txtId.getText();
@@ -58,16 +60,24 @@ public class CustomerFormController {
         String address = txtAddress.getText();
         double salary = Double.parseDouble(txtSalary.getText());
 
-        Customer customer = new Customer(id, name, address, salary);
+        //Customer customer = new Customer(id, name, address, salary);
         try {
-            boolean isAdded = CustomerModel.save(customer);
+            boolean isAdded = customerRepository.addCustomer(
+                    new Customer(
+                            id,
+                            name,
+                            address,
+                            salary
+                    )
+            );
+                    //CustomerModel.save(customer);
 
             if (isAdded) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Added!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -86,11 +96,12 @@ public class CustomerFormController {
     void txtCustomerIdOnAction(ActionEvent event) {
         String id = txtId.getText();
         try {
-            Customer customer = CustomerModel.search(id);
+            Customer customer =customerRepository.getCustomer(id);
+            //CustomerModel.search(id);
             if (customer != null) {
                 fillData(customer);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

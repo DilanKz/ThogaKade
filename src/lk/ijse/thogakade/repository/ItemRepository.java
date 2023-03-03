@@ -1,24 +1,23 @@
 package lk.ijse.thogakade.repository;
 
-import lk.ijse.thogakade.entity.Customer;
+import lk.ijse.thogakade.entity.Items;
 import lk.ijse.thogakade.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class CustomerRepository {
-    private  Session session= SessionFactoryConfiguration.getInstance().getSession();
+public class ItemRepository {
+    private  Session session=SessionFactoryConfiguration.getInstance().getSession();
     private Transaction transaction;
 
-    public CustomerRepository() {
+    public ItemRepository() {
     }
 
-    public boolean addCustomer(Customer customer){
+    public boolean addItem(Items Items){
         transaction = session.beginTransaction();
         try {
-            session.save(customer);
+            session.save(Items);
             transaction.commit();
             session.close();
-            return true;
         }catch (Exception e){
             transaction.rollback();
             e.printStackTrace();
@@ -26,27 +25,11 @@ public class CustomerRepository {
         return false;
     }
 
-    public boolean updateCustomer(Customer customer){
+    public boolean updateItem(Items Items){
         transaction = session.beginTransaction();
 
         try {
-            session.update(customer);
-            transaction.commit();
-            session.close();
-            return true;
-        }catch (Exception e){
-            transaction.rollback();
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean deleteCustomer(Customer customer){
-        transaction = session.beginTransaction();
-
-        try {
-            session.delete(customer);
+            session.update(Items);
             transaction.commit();
             session.close();
             return true;
@@ -58,9 +41,25 @@ public class CustomerRepository {
         return false;
     }
 
-    public Customer getCustomer(String id){
+    public boolean deleteItem(Items Items){
+        transaction = session.beginTransaction();
+
+        try {
+            session.delete(Items);
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public Items getItem(String id){
         try{
-            return session.get(Customer.class, id);
+            return session.get(Items.class, id);
         }catch (Exception e){
             e.printStackTrace();
         }
