@@ -5,6 +5,10 @@ import lk.ijse.thogakade.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
+
 public class CustomerRepository {
     private  Session session= SessionFactoryConfiguration.getInstance().getSession();
     private Transaction transaction;
@@ -12,6 +16,20 @@ public class CustomerRepository {
     public CustomerRepository() {
     }
 
+    public List<Customer> getAll(){
+        try{
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Customer> customerCriteriaQuery = builder.createQuery(Customer.class);
+            customerCriteriaQuery.from(Customer.class);
+
+            return session.createQuery(customerCriteriaQuery).getResultList();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     public boolean addCustomer(Customer customer){
         transaction = session.beginTransaction();
         try {

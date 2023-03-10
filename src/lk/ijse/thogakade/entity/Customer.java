@@ -3,10 +3,8 @@ package lk.ijse.thogakade.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -24,6 +22,9 @@ public class Customer {
 
     @Column(name = "customerSalary")
     private double salary;
+
+    @OneToMany(mappedBy = "orders")
+    private List<Orders> ordersList;
 
     public Customer() {
     }

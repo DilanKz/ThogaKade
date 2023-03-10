@@ -2,23 +2,31 @@ package lk.ijse.thogakade.controller;
 
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.thogakade.entity.Items;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.repository.ItemRepository;
-import lk.ijse.thogakade.to.Customer;
+import lk.ijse.thogakade.entity.Items;
 import lk.ijse.thogakade.util.Navigation;
 import lk.ijse.thogakade.util.Routes;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ItemFormController {
+public class ItemFormController implements Initializable {
     @FXML
     private AnchorPane pane;
 
@@ -35,19 +43,19 @@ public class ItemFormController {
     private TextField txtQty;
 
     @FXML
-    private TableView<?> tblCustomer;
+    private TableView<Items> tblCustomer;
 
     @FXML
-    private TableColumn<?, ?> colID;
+    private TableColumn<Items, String> colID;
 
     @FXML
-    private TableColumn<?, ?> colName;
+    private TableColumn<Items, String> colName;
 
     @FXML
-    private TableColumn<?, ?> colAddress;
+    private TableColumn<Items, Double> colAddress;
 
     @FXML
-    private TableColumn<?, ?> colSalary;
+    private TableColumn<Items, Integer> colSalary;
 
     @FXML
     private TableColumn<?, ?> colAction;
@@ -58,19 +66,20 @@ public class ItemFormController {
     void btnAddOnAction(ActionEvent event) {
         String id = txtId.getText();
         String name = txtName.getText();
-        String address = txtPrice.getText();
-        double salary = Double.parseDouble(txtQty.getText());
+        double address = Double.parseDouble(txtPrice.getText());
+        int salary = Integer.parseInt(txtQty.getText());
 
-        Customer customer = new Customer(id, name, address, salary);
+        Items items = new Items(id, name, address, salary);
         try {
-            boolean isAdded = CustomerModel.save(customer);
+            boolean isAdded =itemRepository.addItem(items);
+            //CustomerModel.save(customer);
 
             if (isAdded) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Added!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -89,19 +98,35 @@ public class ItemFormController {
     void txtCustomerIdOnAction(ActionEvent event) {
         String id = txtId.getText();
         try {
-            Customer customer = CustomerModel.search(id);
-            if (customer != null) {
-                fillData(customer);
+            Items items = itemRepository.getItem(id);
+            if (items != null) {
+                fillData(items);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void fillData(Customer customer) {
-        txtId.setText(customer.getId());
-        txtName.setText(customer.getName());
-        txtPrice.setText(customer.getAddress());
-        txtQty.setText(String.valueOf(customer.getSalary()));
+    private void fillData(Items items) {
+        txtId.setText(items.getId());
+        txtName.setText(items.getName());
+        txtPrice.setText(String.valueOf(items.getPrice()));
+        txtQty.setText(String.valueOf(items.getQty()));
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
+        loadAll();
+    }
+
+    private void loadAll(){
+        ArrayList<Items> items= (ArrayList<Items>) itemRepository.getAll();
+        ObservableList observableList= FXCollections.observableArrayList(items);
+        tblCustomer.setItems(observableList);
     }
 }

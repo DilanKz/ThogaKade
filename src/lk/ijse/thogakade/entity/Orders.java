@@ -2,11 +2,9 @@ package lk.ijse.thogakade.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Orders {
@@ -22,6 +20,14 @@ public class Orders {
 
     @Column(name = "customerID")
     private String cusID;
+
+    @ManyToOne
+    @JoinColumn(name = "customerID")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "orders")
+    private List<OrderDetails> orderDetails;
+
 
     public Orders() {
     }

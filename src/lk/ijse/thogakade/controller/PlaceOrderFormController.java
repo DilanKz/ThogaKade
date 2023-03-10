@@ -13,6 +13,9 @@ import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
 import lk.ijse.thogakade.model.OrderModel;
 import lk.ijse.thogakade.model.PlaceOrderModel;
+import lk.ijse.thogakade.repository.CustomerRepository;
+import lk.ijse.thogakade.repository.ItemRepository;
+import lk.ijse.thogakade.repository.OrdersRepository;
 import lk.ijse.thogakade.to.CartDetail;
 import lk.ijse.thogakade.to.Item;
 import lk.ijse.thogakade.to.PlaceOrder;
@@ -80,6 +83,12 @@ public class PlaceOrderFormController implements Initializable {
 
     @FXML
     private TableColumn colAction;
+
+    //Creating Required Repositories
+    private CustomerRepository customerRepository=new CustomerRepository();
+    private ItemRepository itemRepository=new ItemRepository();
+    private OrdersRepository ordersRepository=new OrdersRepository();
+
     private ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
 
     @Override
@@ -172,7 +181,7 @@ public class PlaceOrderFormController implements Initializable {
     private void loadNextOrderId() {
         try {
             String orderId = OrderModel.generateNextOrderId();
-            lblOrderId.setText(orderId);
+            //lblOrderId.setText(orderId);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -25,8 +25,8 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnItemFormOnAction(ActionEvent event) {
-
+    void btnItemFormOnAction(ActionEvent event) throws IOException {
+        Navigation.navigate(Routes.ITEM, pane);
     }
 
     @FXML

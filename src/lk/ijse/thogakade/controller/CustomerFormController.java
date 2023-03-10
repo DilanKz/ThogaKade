@@ -2,12 +2,16 @@ package lk.ijse.thogakade.controller;
 
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.thogakade.repository.CustomerRepository;
 import lk.ijse.thogakade.entity.Customer;
@@ -15,9 +19,13 @@ import lk.ijse.thogakade.util.Navigation;
 import lk.ijse.thogakade.util.Routes;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class CustomerFormController {
+public class CustomerFormController implements Initializable {
     @FXML
     private AnchorPane pane;
 
@@ -34,19 +42,19 @@ public class CustomerFormController {
     private TextField txtSalary;
 
     @FXML
-    private TableView<?> tblCustomer;
+    private TableView<Customer> tblCustomer;
 
     @FXML
-    private TableColumn<?, ?> colID;
+    private TableColumn<Customer, String> colID;
 
     @FXML
-    private TableColumn<?, ?> colName;
+    private TableColumn<Customer, String> colName;
 
     @FXML
-    private TableColumn<?, ?> colAddress;
+    private TableColumn<Customer, String> colAddress;
 
     @FXML
-    private TableColumn<?, ?> colSalary;
+    private TableColumn<Customer, Double> colSalary;
 
     @FXML
     private TableColumn<?, ?> colAction;
@@ -100,6 +108,7 @@ public class CustomerFormController {
             //CustomerModel.search(id);
             if (customer != null) {
                 fillData(customer);
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -111,5 +120,22 @@ public class CustomerFormController {
         txtName.setText(customer.getName());
         txtAddress.setText(customer.getAddress());
         txtSalary.setText(String.valueOf(customer.getSalary()));
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        loadAllDate();
+    }
+
+    private void loadAllDate(){
+        ArrayList<Customer> customers = (ArrayList<Customer>) customerRepository.getAll();
+
+        ObservableList observableList= FXCollections.observableArrayList(customers);
+        tblCustomer.setItems(observableList);
     }
 }

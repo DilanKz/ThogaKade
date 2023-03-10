@@ -41,7 +41,7 @@ public class ItemIDGenerator implements IdentifierGenerator {
         Statement statement = null;
         ResultSet resultSet = null;
 
-        String prefix = "C";
+        String prefix = "I";
         try {
             connection = sharedSessionContractImplementor.connection();
             statement = connection.createStatement();

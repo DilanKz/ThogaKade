@@ -21,6 +21,10 @@ public class Navigation {
                 window.setTitle("Customer Manage Form");
                 initUI("CustomerForm.fxml");
                 break;
+            case ITEM:
+                window.setTitle("Place Order Form");
+                initUI("ItemForm.fxml");
+                break;
             case PLACE_ORDER:
                 window.setTitle("Place Order Form");
                 initUI("PlaceOrderForm.fxml");
