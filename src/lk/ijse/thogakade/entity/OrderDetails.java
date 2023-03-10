@@ -1,17 +1,18 @@
 package lk.ijse.thogakade.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class OrderDetails {
+public class OrderDetails implements Serializable {
 
     @Id
-    @ManyToOne
+    @ManyToOne(targetEntity = Orders.class)
     @JoinColumn(name = "orderID")
     private Orders orders;
 
     @Id
-    @ManyToOne
+    @ManyToOne(targetEntity = Items.class)
     @JoinColumn(name = "item_id")
     private Items items;
 

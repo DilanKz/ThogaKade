@@ -18,24 +18,24 @@ public class Orders {
     @Column(name = "orderDate")
     private Date date;
 
-    @Column(name = "customerID")
-    private String cusID;
+    @Column(name = "price")
+    private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "customerID")
+    @ManyToOne(targetEntity = Customer.class)
+    @JoinColumn(name = "customerID" )
     private Customer customer;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "orders",targetEntity = OrderDetails.class)
     private List<OrderDetails> orderDetails;
 
 
     public Orders() {
     }
 
-    public Orders(String id, Date date, String cusID) {
+    public Orders(String id, Date date, double price) {
         this.id = id;
         this.date = date;
-        this.cusID = cusID;
+        this.price = price;
     }
 
     public String getId() {
@@ -54,12 +54,12 @@ public class Orders {
         this.date = date;
     }
 
-    public String getCusID() {
-        return cusID;
+    public double getCusID() {
+        return price;
     }
 
-    public void setCusID(String cusID) {
-        this.cusID = cusID;
+    public void setCusID(double price) {
+        this.price = price;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Orders {
         return "Orders{" +
                 "id='" + id + '\'' +
                 ", date=" + date +
-                ", cusID='" + cusID + '\'' +
+                ", cusID='" + price + '\'' +
                 '}';
     }
 }

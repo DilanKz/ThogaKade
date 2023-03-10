@@ -23,7 +23,7 @@ public class Customer {
     @Column(name = "customerSalary")
     private double salary;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "customer",targetEntity = Orders.class)
     private List<Orders> ordersList;
 
     public Customer() {

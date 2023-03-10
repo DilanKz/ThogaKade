@@ -2,6 +2,7 @@ package lk.ijse.thogakade.util;
 
 import lk.ijse.thogakade.entity.Customer;
 import lk.ijse.thogakade.entity.Items;
+import lk.ijse.thogakade.entity.OrderDetails;
 import lk.ijse.thogakade.entity.Orders;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,6 +27,7 @@ public class SessionFactoryConfiguration {
         configuration.addAnnotatedClass(Customer.class);
         configuration.addAnnotatedClass(Items.class);
         configuration.addAnnotatedClass(Orders.class);
+        configuration.addAnnotatedClass(OrderDetails.class);
         sessionFactory=configuration.mergeProperties(properties).buildSessionFactory();
     }
 

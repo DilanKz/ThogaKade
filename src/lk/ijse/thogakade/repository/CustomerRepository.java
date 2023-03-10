@@ -4,6 +4,7 @@ import lk.ijse.thogakade.entity.Customer;
 import lk.ijse.thogakade.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -83,5 +84,11 @@ public class CustomerRepository {
             e.printStackTrace();
         }
         return null;
+    }
+    public List<String> getIds(){
+        String hql = "SELECT id from Customer ";
+        Query<String> query = session.createQuery(hql);
+        List<String> results = query.list();
+        return results;
     }
 }

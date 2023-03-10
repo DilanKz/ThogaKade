@@ -194,13 +194,14 @@ public class PlaceOrderFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            ArrayList<String> idList = CustomerModel.loadCustomerIds();
+            ArrayList<String> idList = (ArrayList<String>) customerRepository.getIds();
+            //CustomerModel.loadCustomerIds();
 
             for (String id : idList) {
                 observableList.add(id);
             }
             cmbCustomerId.setItems(observableList);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
