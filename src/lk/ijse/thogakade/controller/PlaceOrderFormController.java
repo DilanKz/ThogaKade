@@ -9,6 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.thogakade.entity.Items;
+import lk.ijse.thogakade.entity.OrderDetails;
+import lk.ijse.thogakade.entity.Orders;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
 import lk.ijse.thogakade.model.OrderModel;
@@ -154,26 +157,41 @@ public class PlaceOrderFormController implements Initializable {
         String customerId = String.valueOf(cmbCustomerId.getValue());
 
         ArrayList<CartDetail> cartDetails = new ArrayList<>();
+        ArrayList<OrderDetails> orderDetails=new ArrayList<>();
+        Orders orders = new Orders();
+        orders.setId("O001");
+        orders.setDate(String.valueOf(LocalDate.now()));
+        orders.setCustomer(customerRepository.getCustomer(customerId));
 
         /* load all cart items' to orderDetails arrayList */
         for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
             /* get each row details to (PlaceOrderTm)tm in each time and add them to the orderDetails */
             PlaceOrderTM tm = obList.get(i);
             cartDetails.add(new CartDetail(orderId, tm.getCode(), tm.getQty(), tm.getDescription(), tm.getUnitPrice()));
+
+            OrderDetails orderDetails1 = new OrderDetails();
+            orderDetails1.setItems(itemRepository.getItem(tm.getCode()));
+            orderDetails1.setPrice(tm.getUnitPrice());
+            orderDetails1.setQty(tm.getQty());
+            orderDetails1.setOrders(orders);
+
+            orderDetails.add(orderDetails1);
         }
+
+
 
         PlaceOrder placeOrder = new PlaceOrder(customerId, orderId, cartDetails);
         try {
-            boolean isPlaced = PlaceOrderModel.placeOrder(placeOrder);
+            boolean isPlaced = ordersRepository.addOrder(orders,orderDetails);
+            //PlaceOrderModel.placeOrder(placeOrder);
             if (isPlaced) {
                 /* to clear table */
                 obList.clear();
-                loadNextOrderId();
-                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!, Order id is: " +orders.getId()).show();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Order Not Placed!").show();
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -209,13 +227,13 @@ public class PlaceOrderFormController implements Initializable {
     private void loadItemCodes() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            ArrayList<String> itemList = ItemModel.loadItemCodes();
+            ArrayList<String> itemList = (ArrayList<String>) itemRepository.getIds();//ItemModel.loadItemCodes();
 
             for (String code : itemList) {
                 observableList.add(code);
             }
             cmbItemCode.setItems(observableList);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -242,18 +260,20 @@ public class PlaceOrderFormController implements Initializable {
     void cmbItemOnAction(ActionEvent event) {
         String code = String.valueOf(cmbItemCode.getValue());
         try {
-            Item item = ItemModel.search(code);
+            //Item item = ItemModel.search(code);
+            Items item = itemRepository.getItem(code);
             fillItemFields(item);
+
             txtQty.requestFocus();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void fillItemFields(Item item) {
-        lblDescription.setText(item.getDescription());
-        lblUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-        lblQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+    private void fillItemFields(Items item) {
+        lblDescription.setText(item.getName());
+        lblUnitPrice.setText(String.valueOf(item.getPrice()));
+        lblQtyOnHand.setText(String.valueOf(item.getQty()));
     }
 
     public void txtQtyOnAction(ActionEvent actionEvent) {

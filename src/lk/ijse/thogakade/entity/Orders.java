@@ -16,10 +16,8 @@ public class Orders {
     private String id;
 
     @Column(name = "orderDate")
-    private Date date;
+    private String date;
 
-    @Column(name = "price")
-    private double price;
 
     @ManyToOne(targetEntity = Customer.class)
     @JoinColumn(name = "customerID" )
@@ -32,10 +30,9 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(String id, Date date, double price) {
+    public Orders(String id, String date, double price) {
         this.id = id;
         this.date = date;
-        this.price = price;
     }
 
     public String getId() {
@@ -46,28 +43,36 @@ public class Orders {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public double getCusID() {
-        return price;
+
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCusID(double price) {
-        this.price = price;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Override
     public String toString() {
         return "Orders{" +
                 "id='" + id + '\'' +
-                ", date=" + date +
-                ", cusID='" + price + '\'' +
+                ", date=" + date + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package lk.ijse.thogakade.repository;
 
+import lk.ijse.thogakade.entity.Customer;
 import lk.ijse.thogakade.entity.OrderDetails;
 import lk.ijse.thogakade.entity.Orders;
 import lk.ijse.thogakade.util.SessionFactoryConfiguration;
@@ -14,27 +15,45 @@ public class OrdersRepository {
     private Transaction transaction;
 
     public boolean addOrder(Orders orders, ArrayList<OrderDetails> orderDetailsList){
-        transaction = session.beginTransaction();
         OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
-        try {
-            String save = (String) session.save(orders);
-            transaction.commit();
-            session.close();
+            saveOrder(orders);
 
-            if (save.equals(" ")){
+
+            if (true){
 
                 for (OrderDetails orderDetails:orderDetailsList){
+
                     if (!orderDetailsRepository.addOrderDetails(orderDetails)){
                         return false;
                     }
                 }
                 return true;
             }
+        return false;
+    }
+
+    public String saveOrder(Orders orders){
+        try {
+            transaction = session.beginTransaction();
+            String save = (String) session.save(orders);
+            transaction.commit();
+            session.close();
+            return save;
         }catch (Exception e){
             transaction.rollback();
             e.printStackTrace();
         }
-        return false;
+        return null;
+    }
+
+    public Orders getOrder(String id){
+        transaction = session.beginTransaction();
+        try {
+            return session.get(Orders.class, id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
