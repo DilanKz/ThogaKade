@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class OrderDetailsRepository {
-    private Session session= SessionFactoryConfiguration.getInstance().getSession();
     private Transaction transaction;
 
     public boolean addOrderDetails(OrderDetails orderDetails){
+        Session session= SessionFactoryConfiguration.getInstance().getSession();
         transaction = session.beginTransaction();
         try {
             session.save(orderDetails);
